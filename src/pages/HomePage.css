@@ -1,0 +1,638 @@
+@charset "UTF-8";
+.home-page {
+  --home-background-blur: 0px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg-primary);
+}
+
+.home-background-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+  filter: blur(var(--home-background-blur));
+  will-change: filter;
+  pointer-events: none;
+}
+
+
+.home-page > .random-message-card,
+.home-page > .home-header {
+  position: relative;
+  z-index: 1;
+}
+
+.whats-new-btn {
+  position: fixed;
+  top: calc(var(--window-chrome-height, 40px) + 16px);
+  right: 24px;
+  z-index: 100;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.whats-new-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.home-header .app-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+.home-header .app-name {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+.home-header .app-desc {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.random-message-card {
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 20px;
+  padding: 0;
+}
+.random-message-card .random-message-card-header {
+  margin-bottom: 12px;
+  min-width: 0;
+}
+.random-message-card .random-message-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.random-message-card .random-message-heading > svg:first-of-type {
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+.random-message-card .random-message-heading > span {
+  line-height: 1.35;
+}
+.random-message-card {
+  /* 气泡与按钮固定间距，二者紧邻排布（勿让 body-wrap flex:1 把按钮顶到行尾） */
+}
+.random-message-card .random-message-bubble-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  justify-content: flex-start;
+}
+.random-message-card .random-message-body-wrap {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 32px - 6px);
+  display: flex;
+  justify-content: flex-start;
+}
+.random-message-card .random-message-refresh-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.random-message-card .random-message-refresh-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%) translateY(2px);
+  z-index: 5;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.random-message-card .random-message-refresh-btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 3px);
+  transform: translateX(-50%) translateY(2px);
+  z-index: 5;
+  border: 5px solid transparent;
+  border-top-color: var(--text-primary);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.random-message-card .random-message-refresh-btn:hover:not(:disabled) {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+.random-message-card .random-message-refresh-btn:hover:not(:disabled)::before, .random-message-card .random-message-refresh-btn:hover:not(:disabled)::after, .random-message-card .random-message-refresh-btn:focus-visible:not(:disabled)::before, .random-message-card .random-message-refresh-btn:focus-visible:not(:disabled)::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.random-message-card .random-message-refresh-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.random-message-card .random-message-refresh-btn .spinning {
+  animation: random-msg-refresh-spin 0.75s linear infinite;
+}
+/* 液态玻璃刷新按钮：透明底 + SVG 折射（贴图由 LiquidGlassBubble 内联注入）。
+   不用 overflow/clip-path 裁剪，否则会切掉悬浮提示；backdrop-filter 自身按圆角裁剪 */
+.random-message-card .random-message-refresh-btn--glass {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  isolation: isolate;
+}
+.random-message-card .random-message-refresh-btn--glass svg {
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.6));
+}
+.random-message-card .random-message-refresh-btn--glass:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.random-message-card .random-message-placeholder {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.6;
+}
+.random-message-card .random-message-placeholder.muted {
+  opacity: 0.9;
+}
+.random-message-card {
+  /* 切换 / 首次加载占位（与正文布局一致） */
+}
+.random-message-card .random-message-skeleton {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+.random-message-card .random-message-skel-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.random-message-card .random-message-skel-name {
+  height: 14px;
+  width: min(42%, 160px);
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+  position: relative;
+  overflow: hidden;
+}
+.random-message-card .random-message-skel-name::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 80%);
+  background-size: 200% 100%;
+  animation: random-msg-skel-shimmer 1.5s infinite;
+  pointer-events: none;
+}
+.random-message-card {
+  /* 骨架屏仅占内容区整宽，不包含右侧刷新按钮（加载完成后才出现按钮） */
+}
+.random-message-card .random-message-skel-bubble-wrap {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.random-message-card .random-message-skel-bubble {
+  width: 100%;
+  max-width: 100%;
+  min-height: 88px;
+  padding: 10px 14px;
+  border-radius: 18px 18px 18px 4px;
+  box-sizing: border-box;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.random-message-card .random-message-skel-bubble::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 80%);
+  background-size: 200% 100%;
+  animation: random-msg-skel-shimmer 1.5s infinite;
+  pointer-events: none;
+}
+.random-message-card .random-message-skel-line {
+  display: block;
+  height: 10px;
+  border-radius: 4px;
+  width: 95%;
+  position: relative;
+  z-index: 1;
+  background: var(--text-primary);
+  opacity: 0.09;
+}
+.random-message-card .random-message-skel-line--mid {
+  width: 88%;
+}
+.random-message-card .random-message-skel-line--short {
+  width: 62%;
+}
+.random-message-card .random-message-skel-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--bg-tertiary);
+  position: relative;
+  overflow: hidden;
+}
+.random-message-card .random-message-skel-avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 80%);
+  background-size: 200% 100%;
+  animation: random-msg-skel-shimmer 1.5s infinite;
+  pointer-events: none;
+}
+.random-message-card .random-message-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+.random-message-card .random-message-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.random-message-card .random-message-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.random-message-card .random-message-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.random-message-card .random-message-name {
+  align-self: stretch;
+  max-width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.85),
+    0 -1px 0 rgba(0, 0, 0, 0.6),
+    1px 0 0 rgba(0, 0, 0, 0.6),
+    -1px 0 0 rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.35;
+}
+.random-message-card {
+  /* 与聊天页「对方消息」气泡视觉一致；宽度随正文收缩，右侧留出一列给「换一条」 */
+}
+.random-message-card .random-message-body {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 18px 18px 18px 4px;
+  background: var(--card-bg, var(--bg-secondary));
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  quotes: none;
+  box-sizing: border-box;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  vertical-align: top;
+}
+.random-message-card .random-message-body::before, .random-message-card .random-message-body::after {
+  content: none;
+}
+/* 液态玻璃气泡：无底色，只保留 SVG 折射 + 细描边（位移贴图在组件内联注入） */
+.random-message-card .random-message-body--glass {
+  --random-message-glass-radius: 18px 18px 18px 4px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--random-message-glass-radius);
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  background-clip: padding-box;
+  border-color: rgba(255, 255, 255, 0.22);
+  clip-path: inset(0 round var(--random-message-glass-radius));
+  -webkit-clip-path: inset(0 round var(--random-message-glass-radius));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  isolation: isolate;
+  /* 玻璃上文字用白字 + 细黑描边，保证在任何背景折射下都清晰 */
+  color: #fff;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.85),
+    0 -1px 0 rgba(0, 0, 0, 0.6),
+    1px 0 0 rgba(0, 0, 0, 0.6),
+    -1px 0 0 rgba(0, 0, 0, 0.6);
+}
+.random-message-card .random-message-body-inner {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8;
+  line-clamp: 8;
+  overflow: hidden;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.random-message-card {
+  /* 非文本：气泡占满可用宽度（语音等） */
+}
+.random-message-card .random-message-body--media {
+  display: block;
+  width: 100%;
+  max-width: min(100%, 300px);
+  min-width: 140px;
+}
+.random-message-card {
+  /* 图片 / 表情包：无气泡底，仅圆角媒体容器 */
+}
+.random-message-card .random-message-body-wrap--bare {
+  display: block;
+  width: fit-content;
+  max-width: min(100%, 300px);
+  min-width: 0;
+}
+.random-message-card .random-message-body-fallback {
+  color: var(--text-tertiary);
+  font-style: normal;
+}
+.random-message-card .random-moment-media {
+  position: relative;
+  z-index: 1;
+}
+.random-message-card .random-moment-media--image {
+  border-radius: 14px;
+  overflow: hidden;
+}
+.random-message-card .random-moment-media--image.is-clickable {
+  cursor: pointer;
+  outline: none;
+}
+.random-message-card .random-moment-media--image.is-clickable:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 36%, transparent);
+}
+.random-message-card .random-moment-media--image img {
+  display: block;
+  max-width: 100%;
+  max-height: 220px;
+  border-radius: 14px;
+  object-fit: contain;
+}
+.random-message-card .random-moment-media--emoji {
+  border-radius: 14px;
+  overflow: hidden;
+}
+.random-message-card .random-moment-media--emoji img {
+  display: block;
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 14px;
+  object-fit: contain;
+}
+.random-message-card .random-moment-media--voice {
+  display: block;
+  min-width: 60px;
+}
+/* 玻璃气泡内的语音控件：白字白图标，跟随玻璃文字观感 */
+.random-message-card .random-message-body--glass .random-moment-voice-message {
+  color: #fff;
+}
+.random-message-card .random-moment-voice-message {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 20px;
+  gap: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  transition: opacity 0.15s ease;
+}
+.random-message-card .random-moment-voice-message:hover {
+  opacity: 0.8;
+}
+.random-message-card .random-moment-voice-message:active {
+  opacity: 0.7;
+}
+.random-message-card .random-moment-voice-message:focus-visible {
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 59, 130, 246), 0.28);
+}
+.random-message-card .random-moment-voice-message.error {
+  opacity: 0.75;
+}
+.random-message-card .random-moment-voice-message audio {
+  display: none;
+}
+.random-message-card .random-moment-voice-message .voice-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.random-message-card .random-moment-voice-message .voice-icon svg {
+  color: inherit;
+}
+.random-message-card .random-moment-voice-message .voice-icon .spin {
+  animation: random-msg-refresh-spin 1s linear infinite;
+}
+.random-message-card .random-moment-voice-message .voice-icon .voice-error-icon {
+  color: #ff4d4f;
+}
+.random-message-card .random-moment-voice-message .voice-duration {
+  font-size: 14px;
+  line-height: 20px;
+  flex-shrink: 0;
+  color: inherit;
+}
+.random-message-card .random-moment-voice-message .voice-waves {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 18px;
+}
+.random-message-card .random-moment-voice-message .voice-waves span {
+  display: block;
+  width: 3px;
+  background: currentColor;
+  border-radius: 2px;
+  animation: random-moment-voice-wave 0.8s ease-in-out infinite;
+}
+.random-message-card .random-moment-voice-message .voice-waves span:nth-child(1) {
+  height: 6px;
+  animation-delay: 0s;
+}
+.random-message-card .random-moment-voice-message .voice-waves span:nth-child(2) {
+  height: 12px;
+  animation-delay: 0.2s;
+}
+.random-message-card .random-moment-voice-message .voice-waves span:nth-child(3) {
+  height: 8px;
+  animation-delay: 0.4s;
+}
+.random-message-card .random-moment-media-hint {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.random-message-card .random-moment-media-hint.subtle {
+  opacity: 0.85;
+}
+
+@keyframes random-moment-voice-wave {
+  0%, 100% {
+    transform: scaleY(0.5);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes random-msg-refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes random-msg-skel-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* —— 炫技液态玻璃圆球：浮在首页背景上，可拖动、抛掷、弹跳衰减 —— */
+
+/* 宿主层：铺满 home-page，承载圆球的绝对定位；自己不参与布局，只提供坐标系 */
+.liquid-glass-ball-host {
+  position: absolute;
+  inset: 0;
+  z-index: 200;          /* 最高层：球浮在卡片/按钮之上，可拖到任意位置 */
+  pointer-events: none;  /* 宿主放行点击，只有球本身接收指针，不挡下层交互 */
+}
+
+.liquid-glass-ball {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  cursor: grab;
+  touch-action: none;    /* 拖动时禁止浏览器手势（滚动/缩放）抢占 */
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: left, top;
+  pointer-events: auto;  /* 覆盖宿主的 none，让球可被点击/拖动 */
+  /* 液态玻璃：SVG 折射（backdrop-filter 挂在这里）+ 一圈细描边，无高光/阴影 */
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  overflow: hidden;   /* clip 折射到圆形区域 */
+}
+.liquid-glass-ball:active {
+  cursor: grabbing;
+}
+
+/* 尊重用户的减少动效偏好：球静止停在初始位置，不跑物理循环 */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass-ball {
+    cursor: default;
+  }
+}

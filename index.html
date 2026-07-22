@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>密语</title>
+    <script>
+      // 阻塞脚本：在页面渲染前设置主题，防止闪烁
+      (function() {
+        // 优先从 URL 参数读取（子窗口场景）
+        var params = new URLSearchParams(window.location.search);
+        var theme = params.get('theme');
+        var mode = params.get('mode');
+        
+        // 如果 URL 没有，尝试从 localStorage 读取（主窗口场景）
+        if (!theme) {
+          try { theme = localStorage.getItem('theme'); } catch(e) {}
+        }
+        if (!mode) {
+          try { mode = localStorage.getItem('themeMode'); } catch(e) {}
+        }
+        
+        // 设置默认值
+        theme = theme || 'cloud-dancer';
+        mode = mode || 'system';
+
+        if (mode !== 'dark' && mode !== 'light') {
+          mode = 'system';
+        }
+
+        var resolvedMode = mode;
+        if (mode === 'system') {
+          try {
+            resolvedMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          } catch (e) {
+            resolvedMode = 'light';
+          }
+        }
+
+        document.documentElement.setAttribute('data-theme', resolvedMode);
+        document.documentElement.setAttribute('data-mode', resolvedMode);
+        document.documentElement.classList.toggle('dark', resolvedMode === 'dark');
+        document.documentElement.classList.toggle('light', resolvedMode === 'light');
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

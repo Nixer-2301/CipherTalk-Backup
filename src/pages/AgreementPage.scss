@@ -1,0 +1,118 @@
+.agreement-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+.agreement-titlebar {
+  height: var(--window-chrome-height);
+  min-height: var(--window-chrome-height);
+  display: flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  -webkit-app-region: drag;
+  flex-shrink: 0;
+  user-select: none;
+
+  &.is-win {
+    justify-content: flex-start;
+    padding-left: 16px;
+    padding-right: var(--window-controls-right-safe);
+  }
+
+  &.is-mac {
+    display: grid;
+    grid-template-columns: minmax(calc(var(--window-controls-left-safe) - 16px), 1fr) auto minmax(0, 1fr);
+    padding-left: 16px;
+    padding-right: var(--window-controls-right-safe);
+  }
+
+  .agreement-titlebar-spacer {
+    width: calc(var(--window-controls-left-safe) - 16px);
+    min-width: 68px;
+    height: 12px;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.agreement-content {
+  flex: 1;
+  padding: 32px 48px;
+  overflow-y: auto;
+
+  h2 {
+    margin: 0 0 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary);
+
+    &:not(:first-child) {
+      margin-top: 36px;
+    }
+  }
+
+  h3 {
+    margin: 24px 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    text-align: justify;
+  }
+
+  .agreement-notice {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+  }
+
+  .agreement-footer {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+    text-align: right;
+
+    p {
+      margin: 4px 0;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--text-tertiary);
+    }
+  }
+}

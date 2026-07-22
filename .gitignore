@@ -1,0 +1,95 @@
+# 私有子项目：wcdb_api 源码（保密，单独私有仓库 JiQingzhe2004/wcdb_api）
+# 主仓库公开，只发布 resources/ 下的编译产物，不暴露源码
+wcdb_api/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+dist
+dist-ssr
+dist-electron
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Build output
+out
+release
+.tmp-old-check/
+.tmp/release-announcement.json
+
+# TypeScript 增量编译缓存
+*.tsbuildinfo
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Local evaluation data
+evaluation/retrieval/*.local.jsonl
+evaluation/retrieval/*.report.json
+
+# OS
+Thumbs.db
+
+# Docs
+Docs
+语音转文字接口文档
+
+# WeFolw
+WeFolw
+WeFlow
+WxKey-CC
+upx
+native-dlls
+native/image-decrypt/
+native/image-decrypt/target
+resources/whisper
+xkey
+.claude/
+.tmp
+Agent示例UI/
+
+# Embedded CLI local outputs
+CipherTalk-CLI/node_modules/
+CipherTalk-CLI/dist/
+CipherTalk-CLI/coverage/
+CipherTalk-CLI/.miyu-test/
+.agents
+skills-lock.json
+# heroui-agents-md
+.heroui-docs/
+release-verify/
+/tools/
+
+# 插件打包产物
+*.ctp
+*.ctplugin
+
+# 本地插件开发工作区（制作/调试插件用，不纳入版本库）
+plugin-workspace/
+MomentsBridge/
+CipherTalk-Tauri-Lite/

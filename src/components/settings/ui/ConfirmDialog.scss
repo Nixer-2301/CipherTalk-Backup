@@ -1,0 +1,61 @@
+.settings-page {
+  .clear-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .clear-dialog {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(5px) saturate(180%);
+    -webkit-backdrop-filter: blur(5px) saturate(180%); 
+    border: 1px solid var(--border-color);
+    border-radius: var(--settings-card-radius, 18px);
+    padding: 24px;
+    box-shadow: none;
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .dialog-title.has-icon {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    p {
+      margin: 0 0 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .dialog-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+
+      .btn {
+        border-radius: 9999px;
+      }
+    }
+  }
+}
+
+[data-mode="dark"] .settings-page {
+  .clear-dialog {
+    background: rgba(32, 32, 34, 0.72);
+  }
+}

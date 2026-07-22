@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/*
+ * 主题桥接：让插件里的 HeroUI 观感与宿主一致、随宿主切换暗色。
+ *
+ * 原理：PluginHost 握手时把宿主 documentElement 上「当前主题算好的」全套 CSS
+ * 变量注入到本 iframe 的 :root（inline，优先级高于 @heroui/styles 默认值），
+ * 并在 root 上打 `.dark` class、主题切换实时重注入。
+ *
+ * 因此这里做两件事：
+ * 1) 把 dark variant 绑到 SDK 注入的 `.dark`（宿主自身用 [data-mode]，但 iframe 里
+ *    SDK 注入的是 .dark，故此处按 .dark）。
+ * 2) 复刻宿主的语义色映射，让 HeroUI 的 --color-* 指向宿主注入的变量值。
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--surface-foreground);
+  --color-popover: var(--overlay);
+  --color-popover-foreground: var(--overlay-foreground);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-foreground);
+  --color-secondary: var(--surface-secondary);
+  --color-secondary-foreground: var(--surface-secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--danger-foreground);
+  --color-border: var(--border);
+  --color-input: var(--field-border);
+  --color-ring: var(--focus);
+}
+
+html, body { margin: 0; }
+body { background: var(--background); color: var(--foreground); }

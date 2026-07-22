@@ -1,0 +1,17 @@
+{
+  "id": "com.ciphertalk.example.ui-gallery",
+  "name": "组件画廊",
+  "version": "1.0.0",
+  "description": "展示宿主注入的全部 .ct-* 统一组件（含表格与柱状图），照抄即用",
+  "apiVersion": 1,
+  "author": { "name": "CipherTalk 官方示例", "email": "jin648862@gmail.com" },
+  "permissions": ["clipboard:write"],
+  "contributes": {
+    "sidebarMenus": [
+      { "id": "main", "label": "组件画廊", "icon": "palette", "view": "index" }
+    ],
+    "views": {
+      "index": { "entry": "index.html" }
+    }
+  }
+}

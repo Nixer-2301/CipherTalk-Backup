@@ -1,0 +1,301 @@
+.image-window-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-primary);
+    position: relative;
+    display: block;
+    overflow: hidden;
+    user-select: none;
+    /* -webkit-app-region: drag; Removed global drag to prevent unwanted resize/drag behaviors */
+}
+
+/* 滤镜定义 svg 无尺寸会以默认 300×150 挤在左上角，正好盖住标题栏拖动区，必须清零 */
+.image-window-container .glass-filter-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.image-window-container .title-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--window-chrome-height, 40px);
+    background: transparent;
+    border: 0;
+    -webkit-app-region: drag;
+    z-index: 1000;
+}
+
+.image-window-container .title-bar .window-drag-area {
+    width: 100%;
+    height: 100%;
+    -webkit-app-region: drag;
+}
+
+.image-window-container .bottom-toolbar-shell {
+    position: absolute;
+    right: 0;
+    bottom: 18px;
+    left: 0;
+    z-index: 600;
+    display: flex;
+    justify-content: center;
+    padding: 0 18px;
+    pointer-events: none;
+    -webkit-app-region: no-drag;
+}
+
+.image-window-container .bottom-toolbar {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--window-toolbar-gap);
+    max-width: calc(100vw - 36px);
+    min-height: 48px;
+    padding: 7px 11px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: url(#image-window-liquid-refraction) blur(3px) brightness(1.08) saturate(1.08);
+    -webkit-backdrop-filter: url(#image-window-liquid-refraction) blur(3px) brightness(1.08) saturate(1.08);
+    opacity: 0.98;
+    transform: translateY(4px);
+    transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.22s ease, border-color 0.22s ease;
+    pointer-events: auto;
+    -webkit-app-region: no-drag;
+}
+
+.image-window-container .bottom-toolbar:hover,
+.image-window-container .bottom-toolbar:focus-within {
+    opacity: 1;
+    transform: translateY(4px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+.image-window-container .bottom-toolbar button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.78);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, transform 0.18s cubic-bezier(0.25, 1.5, 0.5, 1);
+}
+
+.image-window-container .bottom-toolbar button:hover {
+    background: rgba(255, 255, 255, 0.10);
+    color: #fff;
+    box-shadow:
+        inset 0 10px 12px -15px rgba(255, 255, 255, 0.42),
+        inset 0 -10px 12px -15px rgba(0, 0, 0, 0.34),
+        0 2px 8px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+.image-window-container .bottom-toolbar button svg {
+    filter:
+        drop-shadow(0 1px 0 rgba(0, 0, 0, 0.72))
+        drop-shadow(1px 0 0 rgba(0, 0, 0, 0.54))
+        drop-shadow(-1px 0 0 rgba(0, 0, 0, 0.54))
+        drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.44));
+}
+
+.image-window-container .bottom-toolbar button:active {
+    transform: translateY(1px) scale(0.96);
+}
+
+.image-window-container .bottom-toolbar button.live-play-btn {
+    position: relative;
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.78);
+    font-weight: inherit;
+    font-size: inherit;
+    padding: 6px;
+    height: auto;
+    gap: 0;
+    box-shadow: none;
+}
+
+.image-window-container .bottom-toolbar button.live-play-btn:hover {
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow:
+        inset 0 10px 12px -15px rgba(255, 255, 255, 0.42),
+        inset 0 -10px 12px -15px rgba(0, 0, 0, 0.34),
+        0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.image-window-container .bottom-toolbar button.live-play-btn.active {
+    background: rgba(255, 255, 255, 0.10);
+    color: #fff !important;
+    box-shadow:
+        inset 0 10px 12px -15px rgba(255, 255, 255, 0.42),
+        inset 0 -10px 12px -15px rgba(0, 0, 0, 0.34),
+        0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.image-window-container .bottom-toolbar button.live-play-btn:disabled {
+    opacity: 1;
+    cursor: default;
+}
+
+.image-window-container .bottom-toolbar button.live-play-btn span {
+    display: none;
+}
+
+.image-window-container .bottom-toolbar .scale-text {
+    min-width: 50px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.image-window-container .bottom-toolbar .divider {
+    width: 1px;
+    height: 14px;
+    background: transparent;
+    margin: 0 4px;
+}
+
+.image-window-container .bottom-toolbar .image-counter {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.78);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    min-width: 36px;
+    text-align: center;
+}
+
+.image-window-container .image-viewport {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    -webkit-app-region: no-drag;
+}
+
+.image-window-container .image-viewport .media-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+    touch-action: none;
+}
+
+.image-window-container .image-viewport .media-wrapper.pannable {
+    cursor: grab;
+}
+
+.image-window-container .image-viewport .media-wrapper.pannable:active {
+    cursor: grabbing;
+}
+
+.image-window-container .image-viewport .media-wrapper img,
+.image-window-container .image-viewport .media-wrapper video {
+    display: block;
+    max-width: none;
+    max-height: none;
+    pointer-events: none;
+    cursor: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.image-window-container .image-viewport .media-wrapper .live-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 2;
+}
+
+.image-window-container .image-viewport .media-wrapper .live-video.visible {
+    opacity: 1;
+}
+
+.image-window-container .image-viewport .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    isolation: isolate;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.image-window-container .image-viewport .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+    color: white;
+    transform: translateY(calc(-50% - 2px));
+}
+
+.image-window-container .image-viewport .nav-btn:active {
+    transform: translateY(-50%);
+}
+
+/* 液态玻璃折射：贴图就绪后用位移折射替换普通模糊（圆形 44px，滤镜在 tsx 内注入） */
+.image-window-container.nav-glass-ready .image-viewport .nav-btn {
+    backdrop-filter: url(#image-window-nav-glass) blur(2px) saturate(180%) brightness(1.08);
+    -webkit-backdrop-filter: url(#image-window-nav-glass) blur(2px) saturate(180%) brightness(1.08);
+}
+
+.image-window-container .image-viewport .nav-prev {
+    left: 12px;
+}
+
+.image-window-container .image-viewport .nav-next {
+    right: 12px;
+}
+
+.image-window-container .image-viewport:hover .nav-btn {
+    opacity: 1;
+}
+
+.image-window-empty {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    background-color: var(--bg-primary);
+}
+
+@keyframes tooltipFadeInSns {
+    /* Deprecated, using transitions to avoid transform conflicts */
+}

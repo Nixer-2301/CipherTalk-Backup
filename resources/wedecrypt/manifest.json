@@ -1,0 +1,14 @@
+{
+  "name": "ciphertalk-image-native",
+  "version": "source-present-selfbuilt",
+  "vendor": "CipherTalk",
+  "source": "native/image-decrypt",
+  "activeBinaries": {
+    "win32-x64": "self-built-from-repo-source",
+    "macos-arm64": "self-built-from-repo-source"
+  },
+  "platforms": [
+    "win32-x64",
+    "macos-arm64"
+  ]
+}

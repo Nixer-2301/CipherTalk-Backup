@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>组件画廊</title>
+  <style>
+    /* 控件观感全部来自宿主注入的 .ct-* 组件库，这里只写画廊布局 */
+    body { padding: 24px; max-width: 920px; }
+    section { margin-bottom: 28px; }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .ct-title.section { margin-top: 4px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <h2 class="ct-title">组件画廊</h2>
+  <p class="ct-hint">下面每一块都是宿主注入的 <code class="ct-code" style="display:inline;padding:1px 6px">.ct-*</code> 组件，直接复制类名即用。React 插件可改用 <b>ciphertalk-plugin-ui</b> 同名组件。</p>
+
+  <section>
+    <h3 class="ct-title section">按钮</h3>
+    <div class="row">
+      <button class="ct-btn">默认</button>
+      <button class="ct-btn ct-btn-primary">主按钮</button>
+      <button class="ct-btn ct-btn-ghost">幽灵</button>
+      <button class="ct-btn ct-btn-danger">危险</button>
+      <button class="ct-btn" disabled>禁用</button>
+      <button class="ct-btn ct-btn-primary" id="toast-btn">弹个 toast</button>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="ct-title section">表单</h3>
+    <div class="grid2">
+      <div>
+        <label class="ct-label">输入框</label>
+        <input class="ct-input" placeholder="请输入…" />
+      </div>
+      <div>
+        <label class="ct-label">下拉框（弹层由宿主接管）</label>
+        <select class="ct-select">
+          <option value="a">选项 A</option>
+          <option value="b">选项 B</option>
+          <option value="c">选项 C</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:12px"><textarea class="ct-textarea" placeholder="多行文本"></textarea></div>
+    <div class="row" style="margin-top:12px">
+      <label class="ct-switch"><input type="checkbox" checked /><span></span> 开关</label>
+      <label class="ct-checkbox"><input type="checkbox" checked /> 复选框</label>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="ct-title section">展示</h3>
+    <div class="row">
+      <span class="ct-chip">普通标签</span>
+      <span class="ct-chip ct-chip-accent">强调标签</span>
+      <span class="ct-badge">99+</span>
+      <span class="ct-dot"></span>
+      <span class="ct-dot ct-dot-success"></span>
+      <span class="ct-dot ct-dot-danger"></span>
+      <span class="ct-spinner"></span>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div class="ct-card" style="flex:1">卡片内容</div>
+      <div class="ct-list" style="flex:1">
+        <div class="ct-list-item">列表项一</div>
+        <div class="ct-list-item">列表项二</div>
+      </div>
+    </div>
+    <div style="margin-top:12px">
+      <div class="ct-skeleton" style="height:16px;width:70%;margin-bottom:8px"></div>
+      <progress class="ct-progress" value="62" max="100"></progress>
+    </div>
+    <hr class="ct-divider" />
+    <div class="ct-empty">这是空状态占位</div>
+  </section>
+
+  <section>
+    <h3 class="ct-title section">交互</h3>
+    <div class="row">
+      <div class="ct-tabs" id="tabs">
+        <button class="ct-tab active" data-tab="all">全部</button>
+        <button class="ct-tab" data-tab="img">图片</button>
+        <button class="ct-tab" data-tab="file">文件</button>
+      </div>
+      <details class="ct-menu">
+        <summary class="ct-btn">操作菜单</summary>
+        <div class="ct-menu-panel">
+          <button class="ct-menu-item">编辑</button>
+          <button class="ct-menu-item">复制</button>
+          <button class="ct-menu-item">删除</button>
+        </div>
+      </details>
+      <button class="ct-btn ct-btn-primary" id="dlg-open">打开弹窗</button>
+    </div>
+    <p class="ct-hint" id="tab-echo" style="margin-top:8px">当前分页：全部</p>
+
+    <dialog class="ct-dialog" id="dlg">
+      <h4 class="ct-dialog-title">确认操作</h4>
+      <p class="ct-hint">这是一个原生 &lt;dialog class="ct-dialog"&gt;，用 showModal()/close() 控制。</p>
+      <div class="ct-dialog-actions">
+        <button class="ct-btn" id="dlg-cancel">取消</button>
+        <button class="ct-btn ct-btn-primary" id="dlg-ok">确定</button>
+      </div>
+    </dialog>
+  </section>
+
+  <section>
+    <h3 class="ct-title section">数据 · 表格（点表头排序）</h3>
+    <div class="ct-table-wrap">
+      <table class="ct-table" id="table"></table>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="ct-title section">数据 · 柱状图</h3>
+    <div class="ct-chart" id="chart" style="height:180px"></div>
+  </section>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+.chat-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--brand-primary) 9%, transparent) 0 14rem, transparent 28rem),
+    radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--brand-secondary) 8%, transparent) 0 12rem, transparent 26rem),
+    radial-gradient(circle at 22% 78%, color-mix(in srgb, var(--brand-secondary) 7%, transparent) 0 13rem, transparent 28rem),
+    radial-gradient(circle at 78% 74%, color-mix(in srgb, var(--brand-primary) 7%, transparent) 0 14rem, transparent 30rem),
+    linear-gradient(135deg, color-mix(in srgb, var(--surface-primary) 97%, var(--brand-primary)) 0%, var(--surface-primary) 46%, color-mix(in srgb, var(--surface-primary) 96%, var(--brand-secondary)) 100%);
+
+  [data-mode="dark"] & {
+    background:
+      radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--brand-primary) 11%, transparent) 0 14rem, transparent 28rem),
+      radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--brand-secondary) 10%, transparent) 0 12rem, transparent 26rem),
+      radial-gradient(circle at 22% 78%, color-mix(in srgb, var(--brand-secondary) 9%, transparent) 0 13rem, transparent 28rem),
+      radial-gradient(circle at 78% 74%, color-mix(in srgb, var(--brand-primary) 9%, transparent) 0 14rem, transparent 30rem),
+      linear-gradient(135deg, color-mix(in srgb, var(--surface-primary) 96%, var(--brand-primary)) 0%, var(--surface-primary) 48%, color-mix(in srgb, var(--surface-primary) 95%, var(--brand-secondary)) 100%);
+  }
+}
+
+// 确保消息内容在背景之上
+.message-wrapper,
+.load-more-trigger,
+.date-divider {
+  position: relative;
+  z-index: 1;
+}

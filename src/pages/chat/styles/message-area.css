@@ -1,0 +1,189 @@
+/* 右侧消息区域 */
+.message-area {
+  flex: 1 1 70%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.message-header {
+  position: relative;
+  z-index: 1000;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.message-header .session-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.message-header .header-info {
+  flex: 1;
+}
+
+.message-header .header-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.message-header .header-info .header-subtitle {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.message-header .update-indicator-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--primary-light);
+  border-radius: 12px;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.message-header .update-indicator-header svg {
+  animation: spin 1s linear infinite;
+}
+
+.message-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--bg-tertiary);
+  position: relative;
+}
+
+/* 滚动条样式 */
+.message-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.message-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.message-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/*
+ * 虚拟列表模式：容器改为普通块级滚动器，由 virtua 管理条目偏移；
+ * 原本靠父级 flex gap 的行间距，改成每行自带 padding（进入测量盒，virtua 才量得准）。
+ */
+.message-list--virtual {
+  display: block;
+  gap: 0;
+  padding: 0;
+}
+
+.message-list--virtual .vlist-row {
+  padding: 8px 24px;
+}
+
+/* 虚拟列表顶部"加载更多"浮层（absolute，不入文档流） */
+.vlist-loading-top {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.vlist-loading-top svg {
+  animation: spin 1s linear infinite;
+}
+
+/*
+ * 回到底部 FAB（虚拟列表用）：sticky 浮层 + flex 居中（容器是 block，不能用 align-self），
+ * 内部放 HeroUI 图标按钮，窄。
+ */
+.scroll-to-bottom-fab {
+  position: sticky;
+  bottom: 20px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-bottom-fab.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 拖动调节条 */
+.resize-handle {
+  width: 4px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.resize-handle:hover {
+  background: var(--primary);
+}
+
+/* 拖动时禁用选择 */
+.chat-page.resizing {
+  user-select: none;
+}
+
+.chat-page.resizing .resize-handle {
+  background: var(--primary);
+}
+
+@keyframes message-entry {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

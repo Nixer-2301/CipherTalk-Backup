@@ -1,0 +1,71 @@
+/* 保持启动窗口透明，只显示图片本身 */
+:root,
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+}
+
+.splash-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent;
+  transition: opacity 0.3s ease;
+}
+
+.splash-page--out {
+  opacity: 0;
+}
+
+.splash-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  /* 入场淡入：兼作强制重绘，避免 Windows 透明窗口首帧不合成导致纯图不显示 */
+  animation: splash-in 0.4s ease-out both;
+}
+
+@keyframes splash-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 底部加载指示：5s 等待期间让用户看出「在动」，不像卡死。毛玻璃药丸底衬保证任意图片上都清晰。 */
+.splash-loading {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: splash-in 0.6s ease-out both;
+}
+
+.splash-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  animation: splash-bounce 1s ease-in-out infinite;
+}
+
+.splash-dot:nth-child(2) { animation-delay: 0.15s; }
+.splash-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes splash-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}

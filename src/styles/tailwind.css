@@ -1,0 +1,261 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--surface-foreground);
+  --color-popover: var(--overlay);
+  --color-popover-foreground: var(--overlay-foreground);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--accent-foreground);
+  --color-secondary: var(--surface-secondary);
+  --color-secondary-foreground: var(--surface-secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--danger-foreground);
+  --color-border: var(--border);
+  --color-input: var(--field-border);
+  --color-ring: var(--focus);
+  --font-sans: "HarmonyOS Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+@layer base {
+  [data-theme="light"] {
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .button {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.08),
+      0 6px 14px rgba(15, 23, 42, 0.08);
+  }
+
+  .button:hover:not(:disabled):not([aria-disabled="true"]) {
+    box-shadow:
+      0 2px 4px rgba(15, 23, 42, 0.1),
+      0 10px 22px rgba(15, 23, 42, 0.1);
+  }
+
+  .button:disabled,
+  .button[aria-disabled="true"] {
+    box-shadow: none;
+  }
+
+  .button::after {
+    content: "";
+    position: absolute;
+    inset: 50%;
+    z-index: 0;
+    width: 160%;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: radial-gradient(circle, color-mix(in srgb, currentColor 24%, transparent) 0%, transparent 68%);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  .button:active:not(:disabled):not([aria-disabled="true"])::after,
+  .button[data-pressed="true"]::after {
+    animation: button-ripple 520ms ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button::after {
+    display: none;
+  }
+}
+
+@keyframes button-ripple {
+  0% {
+    opacity: 0.28;
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.ai-runner-frame-0,
+.ai-runner-frame-1,
+.ai-runner-frame-2,
+.ai-runner-frame-3 {
+  opacity: 0;
+  animation-duration: 560ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+}
+
+.ai-runner-frame-0 {
+  animation-name: ai-runner-frame-0;
+}
+
+.ai-runner-frame-1 {
+  animation-name: ai-runner-frame-1;
+}
+
+.ai-runner-frame-2 {
+  animation-name: ai-runner-frame-2;
+}
+
+.ai-runner-frame-3 {
+  animation-name: ai-runner-frame-3;
+}
+
+.ai-runner-dust {
+  animation: ai-runner-dust 560ms steps(2, end) infinite;
+}
+
+@keyframes ai-runner-frame-0 {
+  0%, 24.99% {
+    opacity: 1;
+  }
+
+  25%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ai-runner-frame-1 {
+  0%, 24.99%, 50%, 100% {
+    opacity: 0;
+  }
+
+  25%, 49.99% {
+    opacity: 1;
+  }
+}
+
+@keyframes ai-runner-frame-2 {
+  0%, 49.99%, 75%, 100% {
+    opacity: 0;
+  }
+
+  50%, 74.99% {
+    opacity: 1;
+  }
+}
+
+@keyframes ai-runner-frame-3 {
+  0%, 74.99% {
+    opacity: 0;
+  }
+
+  75%, 100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ai-runner-dust {
+  0% {
+    opacity: 0;
+    transform: translateX(13px);
+  }
+
+  45% {
+    opacity: 0.55;
+    transform: translateX(6px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-runner-frame-0,
+  .ai-runner-frame-1,
+  .ai-runner-frame-2,
+  .ai-runner-frame-3,
+  .ai-runner-dust {
+    animation: none !important;
+  }
+
+  .ai-runner-frame-0 {
+    opacity: 1;
+  }
+
+  .ai-runner-frame-1,
+  .ai-runner-frame-2,
+  .ai-runner-frame-3,
+  .ai-runner-dust {
+    opacity: 0;
+  }
+}
+
+/* AI 宠物精灵图（petdex 格式：8 列 × 9 行，每帧 192×208，steps() 逐帧播放） */
+.ct-pet-sprite-frame {
+  --pet-scale: 0.15;
+  display: inline-block;
+  width: calc(192px * var(--pet-scale));
+  height: calc(208px * var(--pet-scale));
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.ct-pet-sprite {
+  --sprite-row: 0;
+  --sprite-frames: 6;
+  --sprite-duration: 1100ms;
+  --sprite-y: calc(var(--sprite-row) * -208px);
+  --sprite-end-x: calc(var(--sprite-frames) * -192px);
+  display: block;
+  width: 192px;
+  height: 208px;
+  background-image: var(--sprite-url);
+  background-repeat: no-repeat;
+  background-size: 1536px 1872px;
+  image-rendering: pixelated;
+  transform: scale(var(--pet-scale)) translateZ(0);
+  transform-origin: top left;
+  will-change: background-position;
+  animation: ct-pet-state var(--sprite-duration) steps(var(--sprite-frames)) infinite;
+}
+
+@keyframes ct-pet-state {
+  from {
+    background-position: 0 var(--sprite-y);
+  }
+
+  to {
+    background-position: var(--sprite-end-x) var(--sprite-y);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-pet-sprite {
+    animation: none;
+  }
+}
+
+/* 宠物列表卡片：离屏直接跳过渲染与动画推进（content-visibility），
+   未悬停时暂停精灵动画（停在第一帧），几十张卡同屏也不会持续重绘。
+   data-pet-live 用于让“当前选用”的卡片保持挥手动画。 */
+.ct-pet-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 120px 170px;
+}
+
+.ct-pet-card:not(:hover):not([data-pet-live='true']) .ct-pet-sprite {
+  animation-play-state: paused;
+}

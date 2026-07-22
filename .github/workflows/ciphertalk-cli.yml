@@ -1,0 +1,114 @@
+name: CipherTalk CLI
+
+on:
+  pull_request:
+    paths:
+      - 'CipherTalk-CLI/**'
+      - '.github/workflows/ciphertalk-cli.yml'
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'CipherTalk-CLI/**'
+      - '.github/workflows/ciphertalk-cli.yml'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: '是否发布 ciphertalk-cli 到 npm 官方公开包仓库'
+        required: true
+        type: boolean
+        default: false
+      version_bump:
+        description: '发布版本递增方式'
+        required: true
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: CipherTalk-CLI
+
+jobs:
+  validate:
+    name: 验证 CLI
+    runs-on: windows-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v5
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.12.0
+          cache: npm
+          cache-dependency-path: CipherTalk-CLI/package-lock.json
+
+      - name: 安装 CLI 依赖
+        run: npm ci
+
+      - name: 类型检查
+        run: npm run typecheck
+
+      - name: 测试
+        run: npm test -- --run
+
+  publish-npm:
+    name: 发布 CLI
+    runs-on: windows-latest
+    needs: validate
+    if: github.event_name == 'workflow_dispatch' && inputs.publish == true
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.12.0
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: CipherTalk-CLI/package-lock.json
+
+      - name: 安装 CLI 依赖
+        run: npm ci
+
+      - name: 准备发布版本
+        id: version
+        run: node scripts/prepare-publish-version.mjs ${{ inputs.version_bump }}
+
+      - name: 构建 CLI 包
+        run: npm run build
+
+      - name: 发布到 npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
+
+      - name: 写回发布版本
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          $changes = git status --porcelain -- package.json package-lock.json
+          if ($changes) {
+            git add package.json package-lock.json
+            git commit -m "发布 CipherTalk CLI v${{ steps.version.outputs.version }}"
+            git push
+          } else {
+            Write-Host "版本文件无变化，跳过提交。"
+          }
+          git tag "ciphertalk-cli-v${{ steps.version.outputs.version }}"
+          git push origin "ciphertalk-cli-v${{ steps.version.outputs.version }}"

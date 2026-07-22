@@ -1,0 +1,18 @@
+{
+  "id": "com.ciphertalk.example.heroui-starter",
+  "name": "HeroUI 示例",
+  "version": "1.0.0",
+  "description": "用真正的 HeroUI 组件写插件：React + Vite + HeroUI v3，主题随宿主自动切换",
+  "apiVersion": 1,
+  "author": { "name": "CipherTalk 官方示例", "email": "jin648862@gmail.com" },
+  "permissions": ["sessions:read"],
+  "devServer": "http://localhost:5173",
+  "contributes": {
+    "sidebarMenus": [
+      { "id": "main", "label": "HeroUI 示例", "icon": "sparkles", "view": "index" }
+    ],
+    "views": {
+      "index": { "entry": "dist/index.html" }
+    }
+  }
+}

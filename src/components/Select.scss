@@ -1,0 +1,253 @@
+.glass-select {
+  position: relative;
+  width: 100%;
+  min-height: 42px;
+  z-index: 0;
+  user-select: none;
+  --glass-select-bg: color-mix(in srgb, var(--bg-primary) 88%, #ffffff 12%);
+  --glass-select-border: color-mix(in srgb, var(--border-color) 88%, rgba(0, 0, 0, 0.12));
+  --glass-select-shadow: 0 14px 32px rgba(31, 28, 24, 0.12);
+  --glass-select-hover-bg: color-mix(in srgb, var(--primary) 10%, var(--bg-primary));
+  --glass-select-selected-bg: color-mix(in srgb, var(--primary) 14%, var(--bg-primary));
+  --glass-select-selected-hover-bg: color-mix(in srgb, var(--primary) 22%, var(--bg-primary));
+  --glass-select-scrollbar-thumb: color-mix(in srgb, var(--text-tertiary) 46%, transparent);
+
+  [data-mode="dark"] & {
+    --glass-select-bg: color-mix(in srgb, var(--bg-primary) 88%, #000000 12%);
+    --glass-select-border: color-mix(in srgb, var(--border-color) 88%, rgba(255, 255, 255, 0.12));
+    --glass-select-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+    --glass-select-hover-bg: color-mix(in srgb, var(--primary) 20%, transparent);
+    --glass-select-selected-bg: color-mix(in srgb, var(--primary) 14%, transparent);
+    --glass-select-selected-hover-bg: color-mix(in srgb, var(--primary) 30%, transparent);
+    --glass-select-scrollbar-thumb: color-mix(in srgb, var(--text-tertiary) 52%, transparent);
+  }
+
+  // 形变盒子：一个连续容器，高度从「触发器一行」生长到「整个列表」
+  .glass-select-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    overflow: hidden;
+    border-radius: 20px;
+    // 悬浮下拉必须基本不透明，否则会透出下方表单内容、看着像两层叠在一起
+    background: var(--glass-select-bg);
+    border: 1px solid var(--glass-select-border);
+    box-shadow: var(--glass-select-shadow);
+    // 毛玻璃模糊：弱化边缘透出的内容
+    backdrop-filter: blur(16px);
+    transition:
+      height 0.44s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.16s ease;
+  }
+
+  // 触发器：盒子顶部常驻的一行，背景透明，与盒子融为一体
+  .glass-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 14px;
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  // 可编辑模式：触发器为输入框 + 箭头按钮
+  .glass-select-trigger--editable {
+    justify-content: stretch;
+    gap: 0;
+    padding: 0;
+    cursor: text;
+
+    .glass-select-toggle {
+      display: flex;
+      align-items: center;
+      padding: 11px 14px 11px 6px;
+      border: none;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+    }
+  }
+
+  .glass-select-adornment {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    max-width: 58%;
+    flex: 0 1 auto;
+    margin-left: 6px;
+  }
+
+  // 彻底重置，避免被设置页全局 input 样式污染（边框/背景/圆角/阴影）
+  &.glass-select--editable {
+    .glass-select-trigger.glass-select-trigger--editable > input.glass-select-input.glass-select-input {
+      flex: 1;
+      min-width: 0;
+      width: auto;
+      height: auto;
+      min-height: 0;
+      margin: 0;
+      padding: 11px 4px 11px 14px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      appearance: none;
+      -webkit-appearance: none;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text-primary);
+      outline: none;
+
+      &:focus,
+      &:focus-visible,
+      &:hover {
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        outline: none;
+      }
+
+      &::placeholder {
+        color: var(--text-tertiary);
+        font-weight: 400;
+      }
+    }
+  }
+
+  &:focus-within,
+  &.open {
+    z-index: var(--glass-select-open-z-index, 1000);
+
+    .glass-select-box {
+      border-color: color-mix(in srgb, var(--primary) 42%, var(--glass-select-border));
+    }
+  }
+
+  .glass-select-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .glass-select-arrow {
+    flex-shrink: 0;
+    color: var(--text-secondary);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  // 列表：被盒子裁切，盒子长高时从同一个容器里「生长」出来
+  .glass-select-list {
+    box-sizing: border-box;
+    max-height: var(--glass-select-list-max-height, 240px);
+    overflow-y: auto;
+    padding: 2px 6px 6px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: var(--glass-select-scrollbar-thumb);
+    }
+  }
+
+  .glass-select-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 11px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--glass-select-hover-bg);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    &.is-selected {
+      background: var(--glass-select-selected-bg);
+    }
+
+    &.is-selected:hover:not(:disabled) {
+      background: var(--glass-select-selected-hover-bg);
+    }
+  }
+
+  .glass-select-option-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .glass-select-option-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .glass-select-option-desc {
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+
+  .glass-select-option-check {
+    flex-shrink: 0;
+    color: var(--primary);
+  }
+
+  .is-selected .glass-select-option-label {
+    color: var(--primary);
+  }
+
+  // 可编辑模式下的「使用自定义值」行
+  .glass-select-option--custom .glass-select-option-label {
+    font-style: italic;
+  }
+
+  // 展开态
+  &.open {
+    .glass-select-arrow {
+      transform: rotate(180deg);
+    }
+
+    // 列表项错峰浮入：在盒子长高的同时逐个浮现，带轻微回弹
+    .glass-select-option {
+      animation: glassSelectOptionIn 0.34s cubic-bezier(0.34, 1.4, 0.64, 1) backwards;
+      animation-delay: calc(var(--i, 0) * 0.05s + 0.06s);
+    }
+  }
+}
+
+@keyframes glassSelectOptionIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

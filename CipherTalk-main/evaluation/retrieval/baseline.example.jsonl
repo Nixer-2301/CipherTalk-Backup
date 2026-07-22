@@ -1,0 +1,1 @@
+{"id":"case_001","sessionId":"wxid_example","question":"他上次答应我什么事情？","semanticQuery":"对方曾经承诺要完成某件事情","expectedEvidence":[{"localId":123,"createTime":1710000000,"sortSeq":456}],"expectedKeywords":["答应","周末","帮你"]}

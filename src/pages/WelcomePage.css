@@ -1,0 +1,148 @@
+.welcome-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--background) 96%, var(--accent) 4%), var(--background)),
+    var(--bg-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-page.is-standalone {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  -webkit-app-region: drag;
+}
+
+.welcome-page.is-standalone button,
+.welcome-page.is-standalone input,
+.welcome-page.is-standalone textarea,
+.welcome-page.is-standalone select,
+.welcome-page.is-standalone a,
+.welcome-page.is-standalone [role="button"],
+.welcome-page.is-standalone [role="checkbox"],
+.welcome-page.is-standalone [role="combobox"],
+.welcome-page.is-standalone [role="dialog"],
+.welcome-page.is-standalone [role="listbox"],
+.welcome-page.is-standalone [role="option"],
+.welcome-page.is-standalone [role="progressbar"],
+.welcome-page.is-standalone [role="radio"],
+.welcome-page.is-standalone [role="scrollbar"],
+.welcome-page.is-standalone [contenteditable="true"] {
+  -webkit-app-region: no-drag;
+}
+
+.welcome-page.is-closing {
+  animation: welcomeFadeOut 0.45s ease forwards;
+}
+
+.welcome-page .card {
+  background: transparent;
+  border-radius: 8px;
+  box-shadow: none;
+  padding: 16px;
+}
+
+.welcome-shell {
+  animation: welcomeFadeUp 0.45s ease-out;
+}
+
+.countdown-overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklch, black 72%, transparent);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: welcomeOverlayIn 0.25s ease;
+}
+
+.countdown-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 72px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px color-mix(in oklch, black 32%, transparent);
+}
+
+.countdown-number-large {
+  font-size: 104px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  animation: welcomeCountdownPulse 1s ease-in-out infinite;
+}
+
+.countdown-text-large {
+  font-size: 20px;
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+@media (max-width: 940px) {
+  .welcome-shell {
+    width: min(900px, calc(100vw - 32px));
+    height: min(720px, calc(100vh - 32px));
+  }
+}
+
+@keyframes welcomeFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes welcomeFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes welcomeToastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes welcomeOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes welcomeCountdownPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}

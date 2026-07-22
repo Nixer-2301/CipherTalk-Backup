@@ -1,0 +1,222 @@
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  animation: message-entry 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, opacity;
+}
+.message-wrapper.sent {
+  align-items: flex-end;
+}
+.message-wrapper.received {
+  align-items: flex-start;
+}
+.message-wrapper.system {
+  align-items: center;
+  animation: fadeIn 0.5s ease-out both;
+}
+
+.message-virtual-list .message-wrapper {
+  animation: none;
+}
+
+.load-more-trigger {
+  text-align: center;
+  padding: 12px;
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+.load-more-trigger.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.message-bubble {
+  display: flex;
+  gap: 10px;
+  max-width: 70%;
+  align-items: flex-start;
+  --chat-bubble-radius-received: 4px 12px 12px 12px;
+  --chat-bubble-radius-sent: 12px 4px 12px 12px;
+  --chat-quote-bubble-radius: 4px;
+}
+.message-bubble.sent {
+  flex-direction: row-reverse;
+}
+.message-bubble.sent .bubble-content {
+  background: var(--primary);
+  color: white;
+  border-radius: var(--chat-bubble-radius-sent);
+}
+.message-bubble.sent .bubble-body {
+  align-items: flex-end;
+}
+.message-bubble.sent .bubble-quote {
+  align-self: flex-end;
+  text-align: right;
+}
+.message-bubble.sent .bubble-quote-line {
+  align-self: flex-end;
+  text-align: right;
+}
+.message-bubble.received .bubble-content {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: var(--chat-bubble-radius-received);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+}
+.message-bubble.received .bubble-body {
+  align-items: flex-start;
+}
+.message-bubble.received .bubble-quote {
+  align-self: flex-start;
+  text-align: left;
+}
+.message-bubble.received .bubble-quote-line {
+  align-self: flex-start;
+  text-align: left;
+}
+.message-bubble.system {
+  max-width: 85%;
+}
+.message-bubble.system .bubble-avatar {
+  display: none;
+}
+.message-bubble.system .bubble-body {
+  width: 100%;
+}
+.message-bubble.system .bubble-content {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-tertiary);
+  font-size: 12px;
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 16px;
+}
+.message-bubble.quote-style-wechat .bubble-quote {
+  display: inline-flex;
+  max-width: 90%;
+  padding: 4px 10px;
+  border: none;
+  border-radius: var(--chat-quote-bubble-radius);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+.message-bubble.quote-style-wechat .bubble-quote .quote-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.bubble-quote-line {
+  max-width: min(100%, 360px);
+  margin-top: 6px;
+  padding: 0 0 0 10px;
+  border-left: 2px solid color-mix(in srgb, var(--text-tertiary) 55%, transparent);
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  line-height: 1.35;
+}
+.bubble-quote-line .quote-line-content {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bubble-quote-line .quote-line-text {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bubble-quote-line .quote-line-sender {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.bubble-quote-line .quote-line-image-thumb {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+.bubble-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.bubble-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bubble-avatar .avatar-letter {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+.bubble-avatar .avatar-skeleton-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: var(--bg-tertiary);
+}
+.bubble-avatar .avatar-skeleton-wrapper .avatar-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: inherit;
+}
+
+.bubble-content {
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.bubble-quote {
+  max-width: min(100%, 360px);
+  margin-top: 6px;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  line-height: 1.35;
+}
+.bubble-quote .quote-content {
+  min-width: 0;
+  cursor: default;
+}
+.bubble-quote .quote-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bubble-quote .quote-sender {
+  color: var(--text-secondary);
+}
+.bubble-quote .quote-image-thumb {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  margin-left: 6px;
+  border-radius: 4px;
+  object-fit: cover;
+  vertical-align: middle;
+}

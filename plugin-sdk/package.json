@@ -1,0 +1,56 @@
+{
+  "name": "ciphertalk-plugin-sdk",
+  "version": "1.1.0",
+  "description": "CipherTalk（密语）插件开发套件 —— 数据 API + React UI 组件库（/ui）+ 脚手架 CLI，一个包全搞定：在沙箱中调用聊天数据、媒体、转写、搜索、导出、AI 等宿主能力",
+  "keywords": ["ciphertalk", "密语", "plugin", "sdk", "ui", "react", "wechat"],
+  "license": "CC-BY-NC-SA-4.0",
+  "author": "ILoveBingLu",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ILoveBingLu/CipherTalk.git",
+    "directory": "plugin-sdk"
+  },
+  "main": "./ciphertalk-plugin-sdk.js",
+  "module": "./ciphertalk-plugin-sdk.js",
+  "types": "./ciphertalk-plugin-sdk.d.ts",
+  "exports": {
+    ".": {
+      "types": "./ciphertalk-plugin-sdk.d.ts",
+      "import": "./ciphertalk-plugin-sdk.js",
+      "default": "./ciphertalk-plugin-sdk.js"
+    },
+    "./ui": {
+      "types": "./ui.d.ts",
+      "import": "./ui.js",
+      "default": "./ui.js"
+    },
+    "./cli": "./cli.cjs"
+  },
+  "bin": {
+    "ciphertalk-plugin": "./cli.cjs"
+  },
+  "scripts": {
+    "test": "node test/test-cli.cjs && node test/test-sdk.mjs"
+  },
+  "files": [
+    "ciphertalk-plugin-sdk.js",
+    "ciphertalk-plugin-sdk.d.ts",
+    "ui.js",
+    "ui.d.ts",
+    "cli.cjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

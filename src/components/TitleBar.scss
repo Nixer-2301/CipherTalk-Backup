@@ -1,0 +1,243 @@
+.title-bar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  -webkit-app-region: drag;
+  flex-shrink: 0;
+  user-select: none;
+
+  &.variant-app {
+    height: 41px;
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) auto minmax(140px, 1fr);
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 144px; // 为窗口控件留空间
+  }
+
+  &.variant-app.is-mac {
+    padding-left: 84px;
+    padding-right: 16px;
+  }
+
+  &.variant-standalone {
+    --title-bar-right-safe: var(--window-controls-right-safe);
+    height: var(--window-chrome-height);
+    min-height: var(--window-chrome-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--window-toolbar-gap);
+    padding-left: 16px;
+    padding-right: var(--title-bar-right-safe);
+  }
+
+  &.variant-standalone.is-mac {
+    display: grid;
+    grid-template-columns: calc(var(--window-controls-left-safe) - 16px) minmax(0, 1fr) auto;
+    padding-left: 16px;
+    padding-right: var(--title-bar-right-safe);
+  }
+}
+
+.title-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.title-bar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+
+  .titles {
+    max-width: 360px;
+  }
+}
+
+.title-bar-traffic-spacer {
+  width: calc(var(--window-controls-left-safe) - 16px);
+  min-width: 68px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.update-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: rgba(0, 120, 212, 0.08);
+  border-radius: 4px;
+}
+
+.update-indicator {
+  color: #0078d4;
+  animation: spin 1s linear infinite;
+  flex-shrink: 0;
+  display: inline-block !important;
+}
+
+.update-text {
+  font-size: 11px;
+  color: #0078d4;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.title-bar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--window-toolbar-gap);
+  min-width: 0;
+  -webkit-app-region: no-drag;
+}
+
+.title-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.titles {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 600px;
+}
+
+.title-bar.variant-standalone.is-win {
+  .title-bar-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .title-bar-right {
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  .titles {
+    max-width: min(46vw, 420px);
+  }
+}
+
+.title-bar.is-mac {
+  .title-bar-left {
+    justify-content: flex-start;
+  }
+
+  .title-bar-right {
+    overflow: hidden;
+  }
+
+  .update-status {
+    margin-left: 0;
+    max-width: 280px;
+  }
+}
+
+.title-bar.variant-standalone.is-mac {
+  .title-bar-left {
+    width: calc(var(--window-controls-left-safe) - 16px);
+    min-width: calc(var(--window-controls-left-safe) - 16px);
+  }
+
+  .title-bar-center {
+    justify-self: stretch;
+    overflow: hidden;
+  }
+
+  .title-bar-right {
+    overflow: visible;
+    flex-shrink: 0;
+    justify-self: end;
+  }
+
+  .title-bar-center .titles {
+    max-width: min(100%, 320px);
+  }
+}
+
+// 导出页面标签切换
+.export-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-tertiary);
+  border-radius: 999px;
+}
+
+@media (max-width: 960px) {
+  .title-bar.variant-app {
+    grid-template-columns: minmax(90px, 1fr) auto minmax(90px, 1fr);
+  }
+
+  .title-bar.variant-app.is-mac {
+    padding-left: 76px;
+  }
+
+  .title-bar.variant-app.is-mac .title-bar-center .titles {
+    max-width: 220px;
+  }
+
+  .title-bar.variant-standalone.is-win .titles {
+    max-width: 240px;
+  }
+
+  .title-bar.variant-standalone.is-mac .title-bar-center .titles {
+    max-width: 220px;
+  }
+
+  .update-status {
+    .update-text {
+      display: none;
+    }
+  }
+}
+
+.export-tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  &.active {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}

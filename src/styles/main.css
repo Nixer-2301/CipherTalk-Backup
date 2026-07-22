@@ -1,0 +1,856 @@
+/* CSS 变量 - 主题 */
+
+:root {
+  /* 旧样式变量桥接到 HeroUI 默认主题 */
+  --primary: var(--accent);
+  --primary-hover: var(--accent-hover, var(--accent));
+  --primary-light: var(--accent-soft);
+  --primary-rgb: 37, 99, 235;
+
+  /* 背景 */
+  --bg-primary: var(--background);
+  --bg-secondary: var(--surface-secondary);
+  --bg-tertiary: var(--default);
+  --bg-hover: var(--surface-hover, var(--default-hover));
+
+  /* 文字 */
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted);
+  --text-tertiary: var(--field-placeholder, var(--muted));
+
+  /* 边框 */
+  --border-color: var(--border);
+  --border-radius: 9999px;
+
+  /* 阴影 */
+  --shadow-sm: var(--surface-shadow);
+  --shadow-md: var(--overlay-shadow);
+
+  /* 侧边栏 */
+  --sidebar-width: 220px;
+
+  /* 主题渐变 */
+  --bg-gradient: var(--background);
+  --primary-gradient: var(--accent);
+
+  /* 卡片背景 */
+  --card-bg: var(--surface);
+
+  /* Logo 颜色反转（浅色主题用 0，深色主题用 1） */
+  --logo-invert: 0;
+
+  /* 独立窗口标题栏安全区 */
+  --window-chrome-height: 40px;
+  --window-controls-left-safe: 16px;
+  --window-controls-right-safe: 176px;
+  --window-toolbar-gap: 10px;
+}
+
+:root[data-window-platform="darwin"] {
+  --window-controls-left-safe: 84px;
+  --window-controls-right-safe: 16px;
+  --window-toolbar-gap: 8px;
+}
+
+:root[data-window-platform="linux"],
+:root[data-window-platform="win32"] {
+  --window-controls-left-safe: 16px;
+  --window-controls-right-safe: 176px;
+  --window-toolbar-gap: 10px;
+}
+
+:root[data-window-platform="linux"] {
+  --window-controls-left-safe: 16px;
+  --window-controls-right-safe: 144px;
+  --window-toolbar-gap: 10px;
+}
+
+[data-theme='dark'] {
+  --logo-invert: 1;
+  --primary-rgb: 96, 165, 250;
+}
+
+/*
+ * 全局重置交给 Tailwind v4 Preflight（@import "tailwindcss" 已自带，
+ * 在 @layer base 里做了 `* { margin:0; padding:0; box-sizing:border-box }`）。
+ * 不要在此再写无层级的 `*` 重置，否则会压过 HeroUI 写在 @layer components 的组件样式。
+ */
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+body {
+  height: 100%;
+  font-family: 'HarmonyOS Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  user-select: text;
+}
+
+/* 启动屏窗口：强制纯透明背景（覆盖主题色） */
+body.splash-transparent {
+  background: transparent !important;
+}
+
+/* 禁止图片拖动 */
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-tertiary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+.ct-ai-dropdown-list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+  scrollbar-gutter: stable;
+}
+
+.ct-ai-dropdown-list::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.ct-ai-dropdown-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ct-ai-dropdown-list::-webkit-scrollbar-thumb {
+  min-height: 32px;
+  background: var(--border-color);
+  background-clip: content-box;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+}
+
+.ct-ai-dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+  background-clip: content-box;
+}
+
+.ct-ai-dropdown-list::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.ct-agent-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--border-color) 74%, transparent) transparent;
+  scrollbar-gutter: stable;
+}
+
+.ct-agent-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.ct-agent-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ct-agent-scrollbar::-webkit-scrollbar-thumb {
+  min-height: 36px;
+  background: color-mix(in srgb, var(--border-color) 74%, transparent);
+  background-clip: content-box;
+  border: 3px solid transparent;
+  border-radius: 9999px;
+}
+
+.ct-agent-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--text-tertiary) 78%, transparent);
+  background-clip: content-box;
+}
+
+.ct-agent-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.ct-agent-scrollbar-dark {
+  scrollbar-color: rgb(113 113 122 / 0.58) transparent;
+}
+
+.ct-agent-scrollbar-dark::-webkit-scrollbar-thumb {
+  background: rgb(113 113 122 / 0.58);
+  background-clip: content-box;
+}
+
+.ct-agent-scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: rgb(161 161 170 / 0.72);
+  background-clip: content-box;
+}
+
+/* 输入框右侧的模型/思考强度触发器始终无底色、无阴影；键盘焦点改用 outline。 */
+.ct-agent-trigger-button,
+.ct-agent-trigger-button:is(:hover, :active, [data-hovered='true'], [data-pressed='true']) {
+  --button-bg: transparent;
+  --button-bg-hover: transparent;
+  --button-bg-pressed: transparent;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.ct-agent-trigger-button::after {
+  display: none;
+}
+
+.ct-agent-trigger-button:is(:focus-visible, [data-focus-visible='true']) {
+  outline: 2px solid color-mix(in srgb, var(--focus) 72%, transparent);
+  outline-offset: 2px;
+  box-shadow: none !important;
+}
+
+/* Claude Code 风格思考强度卡片。浅色使用主题变量，深色保留原黑色视觉。 */
+.ct-agent-reasoning-card {
+  box-sizing: border-box;
+  width: 100%;
+  gap: 0;
+  overflow: hidden;
+  padding: 18px 20px 16px;
+  border: 1px solid var(--border) !important;
+  border-radius: 20px !important;
+  background: color-mix(in srgb, var(--overlay) 96%, transparent) !important;
+  color: var(--muted);
+  box-shadow: var(--overlay-shadow);
+  backdrop-filter: blur(18px) saturate(1.12);
+  -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  user-select: none;
+}
+
+.ct-agent-reasoning-card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.ct-agent-reasoning-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--foreground);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  perspective: 280px;
+  perspective-origin: center 120%;
+}
+
+.ct-agent-reasoning-title-label,
+.ct-agent-reasoning-status {
+  display: inline-block;
+}
+
+.ct-agent-reasoning-status {
+  color: var(--muted);
+  font-weight: 500;
+  transition:
+    color 300ms ease,
+    text-shadow 300ms ease;
+}
+
+.ct-agent-reasoning-status[data-direction="higher"] {
+  transform-origin: center bottom;
+  animation: ct-agent-reasoning-status-higher 360ms cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+.ct-agent-reasoning-status[data-direction="lower"] {
+  transform-origin: center top;
+  animation: ct-agent-reasoning-status-lower 360ms cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+.ct-agent-reasoning-status-active {
+  color: #c084fc;
+  font-weight: 600;
+  text-shadow: 0 0 12px rgb(168 85 247 / 0.6);
+}
+
+@keyframes ct-agent-reasoning-status-higher {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(14px) rotateX(-72deg);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+@keyframes ct-agent-reasoning-status-lower {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(-14px) rotateX(72deg);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+.ct-agent-reasoning-help {
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  border-radius: 9999px !important;
+  background: transparent !important;
+  color: var(--muted) !important;
+  box-shadow: none !important;
+}
+
+.ct-agent-reasoning-help:hover {
+  color: var(--foreground) !important;
+}
+
+.ct-agent-reasoning-help::after {
+  display: none;
+}
+
+.ct-agent-reasoning-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ct-agent-reasoning-scale-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+
+.ct-agent-reasoning-track {
+  height: 30px !important;
+  overflow: visible;
+  isolation: isolate;
+  border-width: 0 0.90625rem !important;
+  border-style: solid !important;
+  border-color: transparent !important;
+  border-radius: 10px;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.ct-agent-reasoning-track-visual {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: -0.90625rem;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--surface-secondary), var(--surface-tertiary));
+  box-shadow: inset 0 0 0 1px var(--border);
+  pointer-events: none;
+}
+
+.ct-agent-reasoning-track[data-fill-start="true"],
+.ct-agent-reasoning-track[data-fill-end="true"] {
+  border-inline-color: transparent !important;
+}
+
+.ct-agent-reasoning-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 0.90625rem;
+  pointer-events: none;
+  animation: ct-agent-reasoning-dots-in 450ms ease-out both;
+}
+
+.ct-agent-reasoning-dot {
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--muted) 58%, transparent);
+}
+
+/* 极高档由 WebGL 绘制 72 x 6 方格场，从白色热源向左流动并衰减为紫色。 */
+.ct-agent-reasoning-ultra-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+  border-radius: 9px;
+  animation: ct-agent-reasoning-ultra-in 450ms ease-out both;
+}
+
+.ct-agent-reasoning-ultra-layer[data-exiting="true"] {
+  animation: ct-agent-reasoning-ultra-out 450ms ease-in both;
+}
+
+.ct-agent-reasoning-ultra-canvas,
+.ct-agent-reasoning-ultra-fallback {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ct-agent-reasoning-ultra-fallback {
+  background:
+    linear-gradient(90deg, transparent 8%, rgb(88 28 135 / 0.7) 48%, rgb(255 239 255 / 0.96) 100%),
+    var(--surface-tertiary);
+}
+
+/* 切到 max 时从最右档向左掀开 */
+@keyframes ct-agent-reasoning-ultra-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* 29px 白色圆形覆盖 30px 轨道，极高档增加紫色外发光。 */
+.ct-agent-reasoning-thumb {
+  z-index: 5;
+  width: 29px !important;
+  height: 29px !important;
+  /* react-aria 默认用 transform: translate(-50%,-50%) 给滑钮定位，但 transform 会切断
+     backdrop-filter 对轨道背景的采样，让液态玻璃折射彻底失效（同 LiquidGlassBall 的教训）。
+     改用等效的负 margin 偏移（-14.5px = 29px 的一半，位移与 translate(-50%,-50%) 完全一致），
+     去掉 transform 后，backdrop-filter 的折射采样才能生效。 */
+  margin: -14.5px 0 0 -14.5px !important;
+  transform: none !important;
+  border: 0.5px solid rgb(0 0 0 / 0.08) !important;
+  border-radius: 50% !important;
+  background: linear-gradient(170deg, #fff 0%, #f0f0f2 40%, #e4e4e6 100%) !important;
+  box-shadow:
+    0 0.5px 1px rgb(0 0 0 / 0.18),
+    0 2px 6px rgb(0 0 0 / 0.25),
+    0 6px 16px rgb(0 0 0 / 0.12),
+    inset 0 0.5px 0 rgb(255 255 255 / 0.85),
+    inset 0 -0.5px 0 rgb(0 0 0 / 0.06) !important;
+  /* 拖动放大也不能用 scale（transform 家族，同样会断折射），改动 width/height/margin */
+  transition:
+    width 150ms ease,
+    height 150ms ease,
+    margin 150ms ease,
+    box-shadow 400ms ease !important;
+  cursor: grab;
+}
+
+@keyframes ct-agent-reasoning-ultra-out {
+  from {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    opacity: 0;
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+@keyframes ct-agent-reasoning-dots-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ct-agent-reasoning-thumb[data-dragging="true"] {
+  cursor: grabbing;
+  /* 按住拖动时放大到 34px，负 margin 同步到 -17px 维持居中；不用 scale 以免断掉折射 */
+  width: 34px !important;
+  height: 34px !important;
+  margin: -17px 0 0 -17px !important;
+}
+
+/* 液态玻璃滑钮：对齐首页玻璃球——背景全透明，纯靠 backdrop-filter 折射透出轨道内容，
+   只留一圈细白描边 + 极淡内高光/外阴影勾出轮廓，让滑钮在暗轨道上仍可见可抓。
+   滤镜 id 由组件动态生成、内联在 style 上。 */
+.ct-agent-reasoning-thumb[data-glass="true"] {
+  background: transparent !important;
+  border: 1px solid color-mix(in srgb, var(--foreground) 18%, transparent) !important;
+  box-shadow:
+    inset 0 0.5px 0 rgb(255 255 255 / 0.72),
+    inset 0 -0.5px 0 rgb(0 0 0 / 0.08),
+    0 2px 8px rgb(0 0 0 / 0.18) !important;
+}
+
+.ct-agent-reasoning-thumb[data-max="true"] {
+  box-shadow:
+    0 0.5px 1px rgb(0 0 0 / 0.18),
+    0 2px 6px rgb(0 0 0 / 0.25),
+    0 6px 16px rgb(0 0 0 / 0.12),
+    0 0 28px rgb(168 85 247 / 0.5),
+    0 0 50px rgb(168 85 247 / 0.25),
+    inset 0 0.5px 0 rgb(255 255 255 / 0.85),
+    inset 0 -0.5px 0 rgb(0 0 0 / 0.06) !important;
+}
+
+/* 隐藏原本笨重的方角伪元素 */
+.ct-agent-reasoning-thumb::after {
+  display: none !important;
+}
+
+[data-theme='dark'] .ct-agent-reasoning-card {
+  border-color: rgb(255 255 255 / 0.12) !important;
+  background: #000 !important;
+  color: #b0b0c7;
+  box-shadow:
+    0 12px 28px rgb(0 0 0 / 0.2),
+    0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+[data-theme='dark'] .ct-agent-reasoning-title {
+  color: #b0b0c7;
+}
+
+[data-theme='dark'] .ct-agent-reasoning-status:not(.ct-agent-reasoning-status-active),
+[data-theme='dark'] .ct-agent-reasoning-help {
+  color: #a1a1aa !important;
+}
+
+[data-theme='dark'] .ct-agent-reasoning-help:hover {
+  color: #d4d4d8 !important;
+}
+
+[data-theme='dark'] .ct-agent-reasoning-scale-labels {
+  color: #b0b0b8;
+}
+
+[data-theme='dark'] .ct-agent-reasoning-track-visual {
+  background: linear-gradient(135deg, #111113, #0a0a0b);
+  box-shadow: inset 0 0 0 1px #1a1a1e;
+}
+
+[data-theme='dark'] .ct-agent-reasoning-dot {
+  background: #494950;
+}
+
+[data-theme='dark'] .ct-agent-reasoning-ultra-fallback {
+  background:
+    linear-gradient(90deg, transparent 8%, rgb(88 28 135 / 0.7) 48%, rgb(255 239 255 / 0.96) 100%),
+    #0c0c0c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-agent-reasoning-status[data-direction],
+  .ct-agent-reasoning-ultra-layer,
+  .ct-agent-reasoning-dots {
+    animation: none;
+  }
+
+  .ct-agent-reasoning-ultra-layer[data-exiting="true"] {
+    display: none;
+  }
+}
+
+.agent-prompt-optimize-button {
+  --button-bg: transparent;
+  --button-bg-hover: transparent;
+  --button-bg-pressed: transparent;
+  box-shadow: none;
+}
+
+.agent-prompt-optimize-button::after {
+  display: none;
+}
+
+/* 提示词优化时，用被输入框轮廓裁切的斜向柔光取代沿边框旋转的跑马灯。 */
+.agent-prompt-input--optimizing [data-slot="input-group"] {
+  isolation: isolate;
+  overflow: hidden;
+  border-color: color-mix(in oklch, var(--accent) 14%, var(--border));
+}
+
+.agent-prompt-input--optimizing [data-slot="input-group"] > * {
+  position: relative;
+  z-index: 2;
+}
+
+.agent-prompt-input--optimizing [data-slot="input-group"]::before,
+.agent-prompt-input--optimizing [data-slot="input-group"]::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  bottom: -40%;
+  left: -68%;
+  z-index: 1;
+  width: 66%;
+  pointer-events: none;
+  transform: translate3d(-15%, 0, 0) skewX(-12deg);
+  will-change: transform, opacity;
+  animation: agent-prompt-sheen-sweep 3.8s cubic-bezier(0.36, 0, 0.2, 1) infinite;
+}
+
+/* 宽光带提供彩色、低透明度的柔和过渡。 */
+.agent-prompt-input--optimizing [data-slot="input-group"]::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.82 0.17 195 / 0.02) 10%,
+    oklch(0.78 0.18 225 / 0.1) 30%,
+    oklch(1 0 0 / 0.2) 50%,
+    oklch(0.74 0.2 350 / 0.09) 70%,
+    oklch(0.8 0.18 65 / 0.02) 90%,
+    transparent 100%
+  );
+  filter: blur(18px) saturate(120%);
+}
+
+/* 窄亮芯让掠过动作有明确的高光中心，同时保持两侧羽化。 */
+.agent-prompt-input--optimizing [data-slot="input-group"]::after {
+  background: linear-gradient(
+    90deg,
+    transparent 28%,
+    oklch(0.86 0.11 220 / 0.08) 41%,
+    oklch(1 0 0 / 0.3) 50%,
+    oklch(0.84 0.14 335 / 0.07) 59%,
+    transparent 72%
+  );
+  filter: blur(6px);
+}
+
+@keyframes agent-prompt-sheen-sweep {
+  0% {
+    opacity: 0;
+    transform: translate3d(-15%, 0, 0) skewX(-12deg);
+  }
+
+  16% {
+    opacity: 0.18;
+  }
+
+  34%,
+  68% {
+    opacity: 0.82;
+  }
+
+  84% {
+    opacity: 0;
+    transform: translate3d(285%, 0, 0) skewX(-12deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(285%, 0, 0) skewX(-12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent-prompt-input--optimizing [data-slot="input-group"]::before,
+  .agent-prompt-input--optimizing [data-slot="input-group"]::after {
+    display: none;
+  }
+}
+
+/* 滚动到底部按钮液态玻璃折射质感：圆形 36px，复用朋友圈媒体按钮的位移贴图参数。
+   贴图由 AgentGlassDefs 运行时生成，注入 #agent-glass-36；就绪后用位移折射替换普通模糊。 */
+.agent-glass-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.agent-scroll-glass {
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(3px) saturate(180%);
+  -webkit-backdrop-filter: blur(1px) saturate(180%);
+  border: none;
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.22),
+    inset 0 -6px 14px rgba(0, 0, 0, 0.12);
+  isolation: isolate;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
+}
+
+.agent-scroll-glass:hover {
+  background: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.26),
+    inset 0 -6px 14px rgba(0, 0, 0, 0.14);
+  transform: translateY(-1px);
+}
+
+.agent-scroll-glass svg {
+  color: #fff;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.55));
+}
+
+.agent-glass-ready .agent-scroll-glass {
+  backdrop-filter: url(#agent-glass-36) blur(1px) brightness(1.06) saturate(1.5);
+  -webkit-backdrop-filter: url(#agent-glass-36) blur(1px) brightness(1.06) saturate(1.5);
+}
+
+.pet-notice {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-shadow: none;
+  transition: border-color 0.18s ease;
+}
+
+.pet-notice::before,
+.pet-notice::after {
+  display: none;
+}
+
+.pet-notice :is(.text-white, .text-white\/95, .text-white\/90, .text-white\/85, .text-white\/80) {
+  color: #111827;
+}
+
+.pet-notice :is(.text-white\/70, .text-white\/60) {
+  color: #64748b;
+}
+
+.pet-notice button {
+  color: #64748b;
+}
+
+.pet-notice button:hover {
+  color: #111827;
+}
+
+.pet-notice input {
+  color: #111827;
+  background: rgba(15, 23, 42, 0.04);
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+.pet-notice input::placeholder {
+  color: rgba(100, 116, 139, 0.78);
+}
+
+.pet-notice:hover {
+  border-color: rgba(15, 23, 42, 0.22);
+}
+
+/* 按钮基础样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--border-color);
+}
+
+/* 卡片样式 */
+.card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+}
+
+
+/* 微信表情样式 */
+.wechat-emoji {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: text-bottom;
+  margin: 0 1px;
+  pointer-events: auto;
+}
+
+/* 消息中的链接样式 */
+.message-link {
+  color: var(--primary);
+  text-decoration: none;
+  word-break: break-all;
+  pointer-events: auto;
+}
+
+.message-link:hover {
+  text-decoration: underline;
+}
+@keyframes ct-chain-expand {
+  from {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ct-chain-collapse {
+  from {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
